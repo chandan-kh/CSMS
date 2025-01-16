@@ -79,21 +79,25 @@ public class CustomerDaoImp implements CustomerDao {
                preparedStatement.setString(2,customerProfileReq.getEmail());
 
                // Execute query
+               CustomerProfileRes resp = new CustomerProfileRes();
                ResultSet resultSet = preparedStatement.executeQuery();
 
                while(resultSet.next()){
-                   String name = resultSet.getString("name");
-                   String phone = resultSet.getString("phone");
-                   String email = resultSet.getString("email");
-                   String address = resultSet.getString("address");
+//                   String name = resultSet.getString("name");
+//                   String phone = resultSet.getString("phone");
+//                   String email = resultSet.getString("email");
+//                   String address = resultSet.getString("address");
+//
+                   resp.setName(resultSet.getString("name"));
+                   resp.setEmail(resultSet.getString("email"));
+                   resp.setPhone(resultSet.getString("phone"));
+                   resp.setAddress(resultSet.getString("address"));
 
-                   System.out.println("Name:" + name);
-                   System.out.println("Phone" + phone);
-                   System.out.println("Email" + email);
-                   System.out.println("Address" + address);
                }
-               return null;
+               return resp;
+
            } catch (SQLException e) {
+               System.out.println("Data not found");
                e.printStackTrace();
                return null;
            }

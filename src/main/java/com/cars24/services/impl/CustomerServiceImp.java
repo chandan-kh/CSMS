@@ -25,7 +25,16 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public CustomerProfileRes getCustomerProfile(CustomerProfileReq customerProfileReq) {
-         return null;
+         try{
+             // validateAddCustomerRequest(customerProfileReq);
+             CustomerProfileRes resp = customerDao.getCustomer(customerProfileReq);
+             return resp;
+         }
+         catch (Exception e) {
+             System.out.println(e.getMessage());
+             return null;
+         }
+
     }
 
 

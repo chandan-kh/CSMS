@@ -1,44 +1,31 @@
 package com.cars24.runner;
 
-import com.cars24.config.DbConfig;
-import com.cars24.dao.impl.CustomerDaoImp;
-import com.cars24.data.req.AddCustomerReq;
-import com.cars24.data.req.CustomerProfileReq;
-import com.cars24.services.impl.CustomerServiceImp;
-import com.cars24.util.DbUtil;
-
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args){
 
-        System.out.println("Application Start");
-        DbUtil.getDbConnection();
+        Scanner scanner  = new Scanner(System.in);
 
-//        CustomerDaoImp c2 = new CustomerDaoImp();
-//        c2.createCustomer("Shreyass" , "1234442324", "shreyas@gmail.com","Near Cars24 College");
+        boolean exit = true;
+        while(exit){
+            System.out.println("Enter choice : 1) Add Customer , 2) Get Customer , 3) Update Customer , 4) Delete Customer , 0) Exit ");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 0 : exit = false;
+                break;
+                case 1: UI.addCustomer();
+                break;
+                case 2 : UI.getCustomer();
+                break;
+                case 3 : UI.updateCustomer();
+                break;
+                case 4 : UI.deleteCustomer();
+                break;
+            }
 
-//        AddCustomerReq addCustomerReq = new AddCustomerReq();
-//        addCustomerReq.setName("");
-//        addCustomerReq.setPhone("6756734823");
-//        addCustomerReq.setEmail("tejas@gmail.com");
-//        addCustomerReq.setAddress("Near HSR Layout");
+        }
 
-//        CustomerServiceImp cs = new CustomerServiceImp();
-//        cs.registerCustomer(addCustomerReq);
-
-
-        CustomerProfileReq customerProfileReq = new CustomerProfileReq();
-        customerProfileReq.setEmail("john.doe@example.com");
-        customerProfileReq.setPhone("9876543210");
-
-        CustomerDaoImp cs1 = new CustomerDaoImp();
-        cs1.getCustomer(customerProfileReq);
-
-        System.out.println("Application Stoped");
-
+        return;
     }
 }

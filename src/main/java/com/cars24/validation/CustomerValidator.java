@@ -13,6 +13,8 @@ public class CustomerValidator {
 
     }
 
+
+
     private static void validateName(String name){
 
         if(name==null){
