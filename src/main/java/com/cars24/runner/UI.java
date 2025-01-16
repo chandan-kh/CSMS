@@ -18,13 +18,13 @@ public class UI {
         AddCustomerReq req = new AddCustomerReq();
 
         System.out.println("Enter customer name");
-        req.setName(scanner.next());
+        req.setName(scanner.nextLine().trim());
         System.out.println("Enter customer email");
-        req.setEmail(scanner.next());
+        req.setEmail(scanner.nextLine().trim());
         System.out.println("Enter customer phone");
-        req.setPhone(scanner.next());
+        req.setPhone(scanner.nextLine().trim());
         System.out.println("Enter customer address");
-        req.setAddress(scanner.next());
+        req.setAddress(scanner.nextLine().trim());
 
         CustomerServiceImp cs = new CustomerServiceImp();
         cs.registerCustomer(req);
@@ -36,9 +36,9 @@ public class UI {
         System.out.println("Search customer details");
         CustomerProfileReq customerProfileReq = new CustomerProfileReq();
         System.out.println("Enter Email : ");
-        customerProfileReq.setEmail(scanner.next());
+        customerProfileReq.setEmail(scanner.nextLine().trim());
         System.out.println("Enter Phone : ");
-        customerProfileReq.setPhone(scanner.next());
+        customerProfileReq.setPhone(scanner.nextLine().trim());
 
 
         CustomerServiceImp cs = new CustomerServiceImp();
@@ -53,19 +53,19 @@ public class UI {
         System.out.println("Enter customer phone and email which you want to update : ");
         UpdateCustomerReq req = new UpdateCustomerReq();
         System.out.println("Enter Phone : ");
-        req.setCurrPhone(scanner.next());
+        req.setCurrPhone(scanner.nextLine().trim());
         System.out.println("Enter Email : ");
-        req.setCurrEmail(scanner.next());
+        req.setCurrEmail(scanner.nextLine().trim());
 
         System.out.println("Enter the updated details : ");
         System.out.println("Enter Name : ");
-        req.setName(scanner.next());
+        req.setName(scanner.nextLine().trim());
         System.out.println("Enter Phone : ");
-        req.setPhone(scanner.next());
+        req.setPhone(scanner.nextLine().trim());
         System.out.println("Enter Email : ");
-        req.setEmail(scanner.next());
+        req.setEmail(scanner.nextLine().trim());
         System.out.println("Enter Address : ");
-        req.setAddress(scanner.next());
+        req.setAddress(scanner.nextLine().trim());
 
         CustomerServiceImp cs = new CustomerServiceImp();
         String resp = cs.updateCustomer(req);
@@ -79,9 +79,9 @@ public class UI {
         System.out.println("Delete customer details");
         DeleteCustomerReq deleteCustomerReq = new DeleteCustomerReq();
         System.out.println("Enter Email : ");
-        deleteCustomerReq.setEmail(scanner.next());
+        deleteCustomerReq.setEmail(scanner.nextLine().trim());
         System.out.println("Enter Phone : ");
-        deleteCustomerReq.setPhone(scanner.next());
+        deleteCustomerReq.setPhone(scanner.nextLine().trim());
 
         CustomerServiceImp cs = new CustomerServiceImp();
         String resp = cs.deleteCustomer(deleteCustomerReq);

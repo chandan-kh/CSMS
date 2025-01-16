@@ -74,20 +74,38 @@ public class CustomerDaoImp implements CustomerDao {
 
         public String updateCustomer(UpdateCustomerReq updateCustomerReq){
             Connection connection = DbUtil.getDbConnection();
-            String updateSQL = "UPDATE customers SET name = ?,phone = ?,email = ?,address = ? WHERE  phone = ? AND email = ?";
+
+            String fetchSQL = "SELECT name, phone, email, address FROM customers WHERE phone = ? OR email = ?";
+            String updateSQL = "UPDATE customers SET name = ?, phone = ?, email = ?, address = ? WHERE phone = ? OR email = ?";
+
             try{
 
+                PreparedStatement fetchStmt = connection.prepareStatement(fetchSQL);
+                fetchStmt.setString(1, updateCustomerReq.getCurrPhone());
+                fetchStmt.setString(2, updateCustomerReq.getCurrEmail());
+
+                ResultSet rs = fetchStmt.executeQuery();
+
+                if (!rs.next()) {
+                    return "No customer found with given phone or email";
+                }
+
+                String name = updateCustomerReq.getName().isEmpty() ? rs.getString("name") : updateCustomerReq.getName();
+                String phone = updateCustomerReq.getPhone().isEmpty() ? rs.getString("phone") : updateCustomerReq.getPhone();
+                String email = updateCustomerReq.getEmail().isEmpty() ? rs.getString("email") : updateCustomerReq.getEmail();
+                String address = updateCustomerReq.getAddress().isEmpty() ? rs.getString("address") : updateCustomerReq.getAddress();
+
                 PreparedStatement preparedStatement = connection.prepareStatement(updateSQL);
-                preparedStatement.setString(1,updateCustomerReq.getName());
-                preparedStatement.setString(2,updateCustomerReq.getPhone());
-                preparedStatement.setString(3,updateCustomerReq.getEmail());
-                preparedStatement.setString(4,updateCustomerReq.getAddress());
-                preparedStatement.setString(5,updateCustomerReq.getCurrPhone());
-                preparedStatement.setString(6,updateCustomerReq.getCurrEmail());
+                preparedStatement.setString(1, name);
+                preparedStatement.setString(2, phone);
+                preparedStatement.setString(3, email);
+                preparedStatement.setString(4, address);
+                preparedStatement.setString(5, updateCustomerReq.getCurrPhone());
+                preparedStatement.setString(6, updateCustomerReq.getCurrEmail());
 
                 int rowsInserted = preparedStatement.executeUpdate();
                 if(rowsInserted > 0){
-                    return SUCCESS_MESSAGE;
+                    return SUCCESS_MESSAGE + ". Updation Success";
                 }
                 else{
                     return "No customer found with given phone or email";
@@ -99,7 +117,6 @@ public class CustomerDaoImp implements CustomerDao {
             }
 
         }
-
 
        public CustomerProfileRes getCustomer(CustomerProfileReq customerProfileReq){
            Connection connection = DbUtil.getDbConnection();
@@ -146,7 +163,7 @@ public class CustomerDaoImp implements CustomerDao {
 
                int rowsDeleted = preparedStatement.executeUpdate();
                if (rowsDeleted > 0) {
-                   return SUCCESS_MESSAGE;
+                   return SUCCESS_MESSAGE + ". Deletion Success";
                } else {
                    return "No customer found with given phone or email";
                }
