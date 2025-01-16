@@ -9,26 +9,27 @@ import com.cars24.data.res.CustomerProfileRes;
 import com.cars24.services.CustomerService;
 import com.cars24.validation.CustomerValidator;
 
-import static com.cars24.validation.CustomerValidator.validateAddCustomerRequest;
+import static com.cars24.validation.CustomerValidator.*;
 
 public class CustomerServiceImp implements CustomerService {
 
     private CustomerDaoImp customerDao = new CustomerDaoImp();
     @Override
     public String registerCustomer(AddCustomerReq addCustomerReq) {
+        String resp = "";
         try {
             validateAddCustomerRequest(addCustomerReq);
-            customerDao.createCustomer(addCustomerReq);
+            resp = customerDao.createCustomer(addCustomerReq);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return "";
+        return resp;
     }
 
     @Override
     public CustomerProfileRes getCustomerProfile(CustomerProfileReq customerProfileReq) {
          try{
-             // validateAddCustomerRequest(customerProfileReq);
+             validateGetCustomer(customerProfileReq);
              CustomerProfileRes resp = customerDao.getCustomer(customerProfileReq);
              return resp;
          }
@@ -44,6 +45,7 @@ public class CustomerServiceImp implements CustomerService {
 
         String resp = "";
         try {
+            validateUpdateCustomer(updateCustomerReq);
             resp = customerDao.updateCustomer(updateCustomerReq);
         }
         catch (Exception e){
@@ -58,6 +60,7 @@ public class CustomerServiceImp implements CustomerService {
 
         String resp = "";
         try {
+            validateDeleteCustomer(deleteCustomerReq);
             resp = customerDao.deleteCustomer(deleteCustomerReq);
         }
         catch (Exception e){

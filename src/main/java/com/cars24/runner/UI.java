@@ -27,13 +27,15 @@ public class UI {
         req.setAddress(scanner.nextLine().trim());
 
         CustomerServiceImp cs = new CustomerServiceImp();
-        cs.registerCustomer(req);
+        String resp = cs.registerCustomer(req);
+
+        System.out.println(resp);
 
     }
 
     public static void getCustomer()
     {
-        System.out.println("Search customer details");
+        System.out.println("Search customer details using email or phone");
         CustomerProfileReq customerProfileReq = new CustomerProfileReq();
         System.out.println("Enter Email : ");
         customerProfileReq.setEmail(scanner.nextLine().trim());
@@ -50,7 +52,8 @@ public class UI {
 
     public static void updateCustomer(){
 
-        System.out.println("Enter customer phone and email which you want to update : ");
+        System.out.println("Enter customer phone or email which you want to update :  ");
+        System.out.println("(Note : If u want to keep any feild with same value then leave it blank !!) :  ");
         UpdateCustomerReq req = new UpdateCustomerReq();
         System.out.println("Enter Phone : ");
         req.setCurrPhone(scanner.nextLine().trim());
@@ -76,7 +79,7 @@ public class UI {
 
     public static void deleteCustomer(){
 
-        System.out.println("Delete customer details");
+        System.out.println("Delete customer details using email or phone");
         DeleteCustomerReq deleteCustomerReq = new DeleteCustomerReq();
         System.out.println("Enter Email : ");
         deleteCustomerReq.setEmail(scanner.nextLine().trim());

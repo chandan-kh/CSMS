@@ -62,7 +62,7 @@ public class CustomerDaoImp implements CustomerDao {
 
                 int rowsInserted = preparedStatement.executeUpdate();
     //            System.out.println(rowsInserted + " row(s) inserted");
-                return SUCCESS_MESSAGE;
+                return SUCCESS_MESSAGE + ". Insertion success";
            }
            catch (SQLException e){
                e.printStackTrace();
