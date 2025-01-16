@@ -3,6 +3,8 @@ package com.cars24.dao.impl;
 import com.cars24.dao.CustomerDao;
 import com.cars24.data.req.AddCustomerReq;
 import com.cars24.data.req.CustomerProfileReq;
+import com.cars24.data.req.DeleteCustomerReq;
+import com.cars24.data.req.UpdateCustomerReq;
 import com.cars24.data.res.CustomerProfileRes;
 import com.cars24.util.DbUtil;
 
@@ -11,8 +13,8 @@ import java.sql.*;
 
 public class CustomerDaoImp implements CustomerDao {
 
-    private final static String  SUCCESS_MESSAGE = "Customer add successfully";
-    private final static String ERROR_MESSAGE = "Error while adding customer";
+    private final static String  SUCCESS_MESSAGE = "Customer operation successfully";
+    private final static String ERROR_MESSAGE = "Error while processing request";
 
     @Override
 //    public String createCustomer(String name, String phone, String email, String address) {
@@ -70,6 +72,35 @@ public class CustomerDaoImp implements CustomerDao {
        }
 
 
+        public String updateCustomer(UpdateCustomerReq updateCustomerReq){
+            Connection connection = DbUtil.getDbConnection();
+            String updateSQL = "UPDATE customers SET name = ?,phone = ?,email = ?,address = ? WHERE  phone = ? AND email = ?";
+            try{
+
+                PreparedStatement preparedStatement = connection.prepareStatement(updateSQL);
+                preparedStatement.setString(1,updateCustomerReq.getName());
+                preparedStatement.setString(2,updateCustomerReq.getPhone());
+                preparedStatement.setString(3,updateCustomerReq.getEmail());
+                preparedStatement.setString(4,updateCustomerReq.getAddress());
+                preparedStatement.setString(5,updateCustomerReq.getCurrPhone());
+                preparedStatement.setString(6,updateCustomerReq.getCurrEmail());
+
+                int rowsInserted = preparedStatement.executeUpdate();
+                if(rowsInserted > 0){
+                    return SUCCESS_MESSAGE;
+                }
+                else{
+                    return "No customer found with given phone or email";
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return ERROR_MESSAGE;
+            }
+
+        }
+
+
        public CustomerProfileRes getCustomer(CustomerProfileReq customerProfileReq){
            Connection connection = DbUtil.getDbConnection();
            String selectSQL = "SELECT name, phone, email, address FROM CUSTOMERS WHERE phone = ? or email = ?";
@@ -83,6 +114,7 @@ public class CustomerDaoImp implements CustomerDao {
                ResultSet resultSet = preparedStatement.executeQuery();
 
                while(resultSet.next()){
+
 //                   String name = resultSet.getString("name");
 //                   String phone = resultSet.getString("phone");
 //                   String email = resultSet.getString("email");
@@ -102,4 +134,29 @@ public class CustomerDaoImp implements CustomerDao {
                return null;
            }
        }
+
+
+       public String deleteCustomer(DeleteCustomerReq deleteCustomerReq){
+           Connection connection = DbUtil.getDbConnection();
+           String deleteSQL = "DELETE FROM customers WHERE phone = ? OR email = ?";
+           try {
+               PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL);
+               preparedStatement.setString(1, deleteCustomerReq.getPhone());
+               preparedStatement.setString(2, deleteCustomerReq.getEmail());
+
+               int rowsDeleted = preparedStatement.executeUpdate();
+               if (rowsDeleted > 0) {
+                   return SUCCESS_MESSAGE;
+               } else {
+                   return "No customer found with given phone or email";
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+               return ERROR_MESSAGE;
+           }
+       }
+
+
 }
+
+

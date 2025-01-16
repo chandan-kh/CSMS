@@ -9,8 +9,10 @@ public class Main {
 
         boolean exit = true;
         while(exit){
+
             System.out.println("Enter choice : 1) Add Customer , 2) Get Customer , 3) Update Customer , 4) Delete Customer , 0) Exit ");
             int choice = scanner.nextInt();
+
             switch (choice) {
                 case 0 : exit = false;
                 break;
@@ -27,5 +29,6 @@ public class Main {
         }
 
         return;
+
     }
 }
