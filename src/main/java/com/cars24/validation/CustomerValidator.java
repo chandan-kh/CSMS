@@ -17,6 +17,11 @@ public class CustomerValidator {
     }
 
     public static void validateDeleteCustomer(DeleteCustomerReq deleteCustomerReq){
+
+        if(deleteCustomerReq.getPhone() == "" && deleteCustomerReq.getEmail() == ""){
+            throw new IllegalArgumentException("Both the feilds phone and email are empty");
+        }
+
         if(deleteCustomerReq.getEmail() != "") {
             validateEmail(deleteCustomerReq.getEmail());
         }
@@ -26,6 +31,10 @@ public class CustomerValidator {
     }
 
     public static void validateUpdateCustomer(UpdateCustomerReq updateCustomerReq){
+
+        if(updateCustomerReq.getCurrPhone()=="" && updateCustomerReq.getCurrEmail()==""){
+            throw new IllegalArgumentException("Both the feilds phone and email are empty");
+        }
 
         if(updateCustomerReq.getCurrEmail() != "") {
             validateEmail(updateCustomerReq.getCurrEmail());
@@ -45,9 +54,15 @@ public class CustomerValidator {
         if(updateCustomerReq.getAddress() != "") {
             validateAddress(updateCustomerReq.getAddress());
         }
+
     }
 
     public static void validateGetCustomer(CustomerProfileReq customerProfileReq){
+
+        if(customerProfileReq.getPhone() == "" && customerProfileReq.getEmail() == ""){
+            throw new IllegalArgumentException("Both the feilds phone and email are empty");
+        }
+
         if(customerProfileReq.getEmail() != "") {
             validateEmail(customerProfileReq.getEmail());
         }
